@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 import android.view.Gravity;
 import android.widget.Toast;
+
+import com.turku.historydatabase.DBAdapterLanguage;
+import com.turku.historydatabase.Language;
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JSONException;
@@ -249,8 +253,10 @@ public class RouteDetail {
 		this.distanceTime = distanceTime;
 	}
 	private String getStreetName(JSONObject name){
+		int index = 0;
+		if(DBAdapterLanguage.getAllData().get(0).equalsIgnoreCase("SWE")) index = 1;
 		try {
-			return name.getJSONArray("NAME").getJSONObject(0).getString("@val");
+			return name.getJSONArray("NAME").getJSONObject(index).getString("@val");
 		}catch (JSONException e){
 			return name.getJSONObject("NAME").getString("@val");
 		}
