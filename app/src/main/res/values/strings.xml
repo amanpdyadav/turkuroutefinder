@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">FOLI PASS</string>    
+    <string name="divider_string">|</string>     
+    <string name="howtouse">How to use?</string>    
+    <string name="drawer_open">Open Navigation Drawer</string>
+    <string name="drawer_close">Close Navigation Drawer</string>    
+    
+</resources>

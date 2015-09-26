@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" 
+    android:gravity="left"
+    android:orientation="horizontal" >
+
+    <ImageView
+        android:id="@+id/routedetailview_back"
+        android:contentDescription="@null"
+        android:layout_width="wrap_content"
+        android:layout_height="34dp"
+        android:clickable="true"
+        android:gravity="left"
+        android:paddingBottom="2dp"
+        android:paddingRight="15dp"
+        android:paddingTop="6dp"
+        android:src="@drawable/back" />
+
+    <TextView
+        android:id="@+id/mapscreen_title"
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textColor="#FFFFFF"
+        android:gravity="center"
+        android:paddingBottom="2dp"
+        android:paddingRight="15dp"
+        android:paddingTop="2dp"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <ImageView
+        android:id="@+id/routedetailview_map"
+        android:contentDescription="@null"
+        android:layout_width="55dp"
+        android:layout_height="38dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:clickable="true"
+        android:paddingBottom="2dp"
+        android:paddingRight="2dp"
+        android:paddingTop="2dp"
+        android:src="@drawable/world_map" />
+
+</RelativeLayout>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/amanyadav/Projects/AndroidProjects/TurkuRouteFinder/app/libs/commons.collections-3.2.1.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="22a56ebdbf622819ab5185b4eca7f2aa935306d8">
+        <dex dex="/Users/amanyadav/Projects/AndroidProjects/TurkuRouteFinder/app/build/intermediates/pre-dexed/debug/commons.collections-3.2.1-359901d3cb855f1043f0181425c4c97b1aad6719.jar" />
+    </item>
+    <item
+        jar="/Users/amanyadav/Projects/AndroidProjects/TurkuRouteFinder/app/libs/commons-logging-1.1.2.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="3b2888239ebec822dff8ed7ebf96293302e4b23b">
+        <dex dex="/Users/amanyadav/Projects/AndroidProjects/TurkuRouteFinder/app/build/intermediates/pre-dexed/debug/commons-logging-1.1.2-5799916c5ae487f6aa9ff5888ac175b8e1c07a19.jar" />
+    </item>
+    <item
+        jar="/Users/amanyadav/Projects/AndroidProjects/TurkuRouteFinder/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
+        <dex dex="/Users/amanyadav/Projects/AndroidProjects/TurkuRouteFinder/app/build/intermediates/pre-dexed/debug/classes-0275d4a716e77d7c87aa6c0a1bc4c82a2d0ae2e0.jar" />
+    </item>
+    <item
+        jar="/Users/amanyadav/Projects/AndroidProjects/TurkuRouteFinder/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/6.5.87/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="dd9247ea0fabe8ee479638c4b4a23e93752be256">
+        <dex dex="/Users/amanyadav/Projects/AndroidProjects/TurkuRouteFinder/app/build/intermediates/pre-dexed/debug/classes-df3829896b2ffcab6d4e696dd39934871553bc0f.jar" />
+    </item>
+    <item
+        jar="/Users/amanyadav/Projects/AndroidProjects/TurkuRouteFinder/app/libs/xom-1.2.7.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="679da5e69da379f870201f9611bd49a0dd528188">
+        <dex dex="/Users/amanyadav/Projects/AndroidProjects/TurkuRouteFinder/app/build/intermediates/pre-dexed/debug/xom-1.2.7-9efdb40a0a5d35cbc4dc7c1a18c2960f24e2c457.jar" />
+    </item>
+    <item
+        jar="/Users/amanyadav/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/21.0.3/support-annotations-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
+        <dex dex="/Users/amanyadav/Projects/AndroidProjects/TurkuRouteFinder/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-ff058b0f35442d86ea07fe653dba04d94e974fbe.jar" />
+    </item>
+    <item
+        jar="/Users/amanyadav/Projects/AndroidProjects/TurkuRouteFinder/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="/Users/amanyadav/Projects/AndroidProjects/TurkuRouteFinder/app/build/intermediates/pre-dexed/debug/classes-c2662090287cb180a85130fc1c49a3779922eadc.jar" />
+    </item>
+    <item
+        jar="/Users/amanyadav/Projects/AndroidProjects/TurkuRouteFinder/app/libs/json-lib-2.4-jdk15.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="136743e0d12df4e785e62b48618cee169b2ae546">
+        <dex dex="/Users/amanyadav/Projects/AndroidProjects/TurkuRouteFinder/app/build/intermediates/pre-dexed/debug/json-lib-2.4-jdk15-85a7b906d1d8e61d73fe61e60e985f896a1a4dad.jar" />
+    </item>
+    <item
+        jar="/Users/amanyadav/Projects/AndroidProjects/TurkuRouteFinder/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/libs/internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="/Users/amanyadav/Projects/AndroidProjects/TurkuRouteFinder/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-7b1425bdefd003d092fa9cad5de087fe01ac6797.jar" />
+    </item>
+    <item
+        jar="/Users/amanyadav/Projects/AndroidProjects/TurkuRouteFinder/app/libs/xercesImpl.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="78e8536aa8b161c13232f37a32910666f787a5af">
+        <dex dex="/Users/amanyadav/Projects/AndroidProjects/TurkuRouteFinder/app/build/intermediates/pre-dexed/debug/xercesImpl-539dba9e6cc25172ef6bbc9977f570f8ef82e08b.jar" />
+    </item>
+    <item
+        jar="/Users/amanyadav/Projects/AndroidProjects/TurkuRouteFinder/app/libs/gson-2.2.2.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="53bfcd3c8e310d1493b2691484525ed90b04e236">
+        <dex dex="/Users/amanyadav/Projects/AndroidProjects/TurkuRouteFinder/app/build/intermediates/pre-dexed/debug/gson-2.2.2-e90a7429b67115b8ba0c63cafddc3d017b370adc.jar" />
+    </item>
+    <item
+        jar="/Users/amanyadav/Projects/AndroidProjects/TurkuRouteFinder/app/libs/org.apache.commons.io.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="b90b6ac57cf27a2858eaa490d02ba7945d18ca7b">
+        <dex dex="/Users/amanyadav/Projects/AndroidProjects/TurkuRouteFinder/app/build/intermediates/pre-dexed/debug/org.apache.commons.io-1d66819ab0ae90b61dfc12df39f8da3c45c3f2a2.jar" />
+    </item>
+    <item
+        jar="/Users/amanyadav/Projects/AndroidProjects/TurkuRouteFinder/app/libs/ezmorph-1.0.6.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="01e55d2a0253ea37745d33062852fd2c90027432">
+        <dex dex="/Users/amanyadav/Projects/AndroidProjects/TurkuRouteFinder/app/build/intermediates/pre-dexed/debug/ezmorph-1.0.6-112e14e48675c40c4442673d3c8ddfbcd7256221.jar" />
+    </item>
+    <item
+        jar="/Users/amanyadav/Projects/AndroidProjects/TurkuRouteFinder/app/libs/commons-lang-2.5.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="b0236b252e86419eef20c31a44579d2aee2f0a69">
+        <dex dex="/Users/amanyadav/Projects/AndroidProjects/TurkuRouteFinder/app/build/intermediates/pre-dexed/debug/commons-lang-2.5-89d456a71d02bf85674c1512a07a381ab4f4e80a.jar" />
+    </item>
+
+</items>
