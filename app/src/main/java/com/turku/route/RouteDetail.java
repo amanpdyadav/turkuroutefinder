@@ -54,9 +54,10 @@ public class RouteDetail {
 				this.coord.add(Double.parseDouble(maplocarray.getJSONObject(val).getString("@y")));
 				this.coord.add(Double.parseDouble(maplocarray.getJSONObject(val).getString("@x")));
 				try{
-					maplocarray.getJSONObject(val).getJSONObject("NAME").getString("@val");
-					this.routeDetail.add(maplocarray.getJSONObject(val).getJSONObject("DEPARTURE").getString("@time"));
-					this.routeDetail.add(maplocarray.getJSONObject(val).getJSONObject("NAME").getString("@val"));
+					if(getStreetName(maplocarray.getJSONObject(val)).length() > 0) {
+						this.routeDetail.add(maplocarray.getJSONObject(val).getJSONObject("DEPARTURE").getString("@time"));
+						this.routeDetail.add(getStreetName(maplocarray.getJSONObject(val)));
+					}
 				}
 				catch(JSONException e){
 					//Log.d("TAG", "No name for this");
@@ -163,9 +164,10 @@ public class RouteDetail {
 				this.coord.add(Double.parseDouble(route.getJSONObject(val).getString("@y")));
 				this.coord.add(Double.parseDouble(route.getJSONObject(val).getString("@x")));
 				try{
-					route.getJSONObject(val).getJSONObject("NAME").getString("@val");
-					this.routeDetail.add(route.getJSONObject(val).getJSONObject("DEPARTURE").getString("@time"));
-					this.routeDetail.add(route.getJSONObject(val).getJSONObject("NAME").getString("@val"));
+					if (getStreetName(route.getJSONObject(val)).length() > 0) {
+						this.routeDetail.add(route.getJSONObject(val).getJSONObject("DEPARTURE").getString("@time"));
+						this.routeDetail.add(getStreetName(route.getJSONObject(val)));
+					}
 				}
 				catch(JSONException e){
 					this.routeDetail.add("0000");
@@ -181,9 +183,10 @@ public class RouteDetail {
 				this.coord.add(Double.parseDouble(route.getString("@y")));
 				this.coord.add(Double.parseDouble(route.getString("@x")));
 				try{
-					route.getJSONObject("NAME").getString("@val");
-					this.routeDetail.add(route.getJSONObject("DEPARTURE").getString("@time"));
-					this.routeDetail.add(route.getJSONObject("NAME").getString("@val"));
+					if (getStreetName(route).length() > 0) {
+						this.routeDetail.add(route.getJSONObject("DEPARTURE").getString("@time"));
+						this.routeDetail.add(getStreetName(route));
+					}
 				}
 				catch(JSONException e){
 					this.routeDetail.add("0000");
@@ -202,15 +205,17 @@ public class RouteDetail {
 		for(int val = 0; val < route.getJSONArray("STOP").size();val++){
 			this.coord.add(Double.parseDouble(route.getJSONArray("STOP").getJSONObject(val).getString("@y")));
 			this.coord.add(Double.parseDouble(route.getJSONArray("STOP").getJSONObject(val).getString("@x")));
-			try{
-				route.getJSONArray("STOP").getJSONObject(val).getJSONObject("NAME").getString("@val");
-				if (val==0){
-					this.distanceTime.add(route.getJSONArray("STOP").getJSONObject(val).getString("@code"));
-					this.distanceTime.add(route.getJSONArray("STOP").getJSONObject(val).getJSONObject("NAME").getString("@val"));
+			try {
+				if (getStreetName(route.getJSONArray("STOP").getJSONObject(val)).length() > 0) {
+					if (val == 0) {
+						this.distanceTime.add(route.getJSONArray("STOP").getJSONObject(val).getString("@code"));
+						this.distanceTime.add(getStreetName(route.getJSONArray("STOP").getJSONObject(val)));
+					}
+
+					this.routeDetail.add(route.getJSONArray("STOP").getJSONObject(val).getJSONObject("DEPARTURE").getString("@time"));
+					this.routeDetail.add(getStreetName(route.getJSONArray("STOP").getJSONObject(val)));
+					this.busstopslist.add(getStreetName(route.getJSONArray("STOP").getJSONObject(val)));
 				}
-				this.routeDetail.add(route.getJSONArray("STOP").getJSONObject(val).getJSONObject("DEPARTURE").getString("@time"));
-				this.routeDetail.add(route.getJSONArray("STOP").getJSONObject(val).getJSONObject("NAME").getString("@val"));
-				this.busstopslist.add(route.getJSONArray("STOP").getJSONObject(val).getJSONObject("NAME").getString("@val"));
 			}
 			catch(JSONException e){
 				//Log.d("TAG", "No name for this");
@@ -242,5 +247,13 @@ public class RouteDetail {
 	}
 	public void distanceTime(ArrayList<String> distanceTime) {
 		this.distanceTime = distanceTime;
+	}
+	private String getStreetName(JSONObject name){
+		try {
+			return name.getJSONArray("NAME").getJSONObject(0).getString("@val");
+		}catch (JSONException e){
+			return name.getJSONObject("NAME").getString("@val");
+		}
+
 	}
 }

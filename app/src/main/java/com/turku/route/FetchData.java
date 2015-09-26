@@ -3,8 +3,12 @@ package com.turku.route;
 import net.sf.json.JSON;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+
+import java.io.Console;
 import java.io.IOException;
 import android.os.AsyncTask;
+import android.util.Log;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import net.sf.json.xml.XMLSerializer;
@@ -13,6 +17,8 @@ import org.apache.http.util.EntityUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.logging.Logger;
+
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.client.ClientProtocolException;
@@ -39,6 +45,7 @@ public class FetchData {
                 httpResponse = httpClient.execute(httpPost);
                 HttpEntity httpEntity = httpResponse.getEntity();
                 objJson = new XMLSerializer().read(EntityUtils.toString(httpEntity));
+                Log.d("TAG", objJson.toString());
             }
             catch (ClientProtocolException e) {}
             catch (IOException e) {}
