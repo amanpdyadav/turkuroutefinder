@@ -5,4 +5,6 @@ app/libs/*
 app/src/androidTest/*
 spray-yougrade/*
 build/*
+*.iml
+gradle/
 
