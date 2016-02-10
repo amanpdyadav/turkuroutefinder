@@ -3,7 +3,7 @@
 app/build/*
 app/libs/*
 app/src/androidTest/*
-spray-yougrade/*
+spray-yougrade/
 build/*
 *.iml
 gradle/
