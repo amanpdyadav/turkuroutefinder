@@ -1,31 +1,28 @@
 package com.turku.route;
 
-import net.sf.json.JSON;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-
-import java.io.Console;
-import java.io.IOException;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import net.sf.json.xml.XMLSerializer;
-import org.apache.http.util.EntityUtils;
-
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.logging.Logger;
 
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.client.ClientProtocolException;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.XML;
+
 
 public class FetchData {
 
-    public JSON getXMLdataFromurl(String url) {
+    private final String USER_AGENT = "Mozilla/5.0";
+
+    public JSONObject getXMLdataFromurl(String url) {
         try {
             return new xmlData().execute(url).get();
         }
@@ -34,21 +31,17 @@ public class FetchData {
         return null;
     }
 
-    private class xmlData extends AsyncTask<String, Void, JSON> {
-        JSON objJson;
+    private class xmlData extends AsyncTask<String, Void, JSONObject> {
+        JSONObject objJson;
         @Override
-        protected JSON doInBackground(String... url) {
+        protected JSONObject doInBackground(String... url) {
             try {
-                DefaultHttpClient httpClient = new DefaultHttpClient();
-                HttpPost httpPost = new HttpPost(url[0]);
-                HttpResponse httpResponse;
-                httpResponse = httpClient.execute(httpPost);
-                HttpEntity httpEntity = httpResponse.getEntity();
-                objJson = new XMLSerializer().read(EntityUtils.toString(httpEntity));
+                System.out.println("Testing 1 - Send Http GET request");
+                String res = sendGet(url[0]);
+                objJson = new JSONObject(res);
                 Log.d("TAG", objJson.toString());
             }
-            catch (ClientProtocolException e) {}
-            catch (IOException e) {}
+            catch (Exception e) {}
             return objJson;
         };
 
@@ -61,39 +54,41 @@ public class FetchData {
     public List<String> autocomplete(String input){
         List<String> resultList = new ArrayList<String>();
         JSONArray address;
-        JSON xml = getXMLdataFromurl("http://api.matka.fi/public-lvm/fi/api/?key="
+        JSONObject xml = getXMLdataFromurl("http://api.matka.fi/public-lvm/fi/api/?key="
                 + input + "&user=Projektkurs&pass=Reittiopas");
         JSONObject jobj = (JSONObject) xml;
         try{
             address = jobj.getJSONObject("GEOCODE").getJSONArray("LOC");
-            for (int i = 0; i < address.size(); i++) {
-                if (address.getJSONObject(i).getString("@city")
+            for (int i = 0; i < address.length(); i++) {
+                if (address.getJSONObject(i).getString("city")
                         .equalsIgnoreCase("turku")
-                        || address.getJSONObject(i).getString("@city")
+                        || address.getJSONObject(i).getString("city")
                         .equalsIgnoreCase("kaarina")
-                        || address.getJSONObject(i).getString("@city")
+                        || address.getJSONObject(i).getString("city")
                         .equalsIgnoreCase("naantali")
-                        || address.getJSONObject(i).getString("@city")
+                        || address.getJSONObject(i).getString("city")
                         .equalsIgnoreCase("" +
                                 "" +
                                 "")) {
-                    resultList.add(address.getJSONObject(i).getString("@name1")
-                            + "" + address.getJSONObject(i).getString("@number")
-                            + "," + address.getJSONObject(i).getString("@city"));
+                    resultList.add(address.getJSONObject(i).getString("name1")
+                            + "" + address.getJSONObject(i).getString("number")
+                            + "," + address.getJSONObject(i).getString("city"));
                 }
             }
         }
         catch(Exception e){
-            JSONObject keys = jobj.getJSONObject("GEOCODE");
-            String result = keys.keySet().contains("LOC")+"";
-            if(result.equalsIgnoreCase("false"))
-            {
-                resultList.add("No match found.");
-                return resultList;
-            }
-            resultList.add(jobj.getJSONObject("GEOCODE").getJSONObject("LOC").getString("@name1")
-                    + "" + jobj.getJSONObject("GEOCODE").getJSONObject("LOC").getString("@number")
-                    + "," + jobj.getJSONObject("GEOCODE").getJSONObject("LOC").getString("@city"));
+            try {
+                JSONObject keys = jobj.getJSONObject("GEOCODE");
+                String result = keys.keys().toString().contains("LOC")+"";
+                if(result.equalsIgnoreCase("false"))
+                {
+                    resultList.add("No match found.");
+                    return resultList;
+                }
+                resultList.add(jobj.getJSONObject("GEOCODE").getJSONObject("LOC").getString("name1")
+                        + "" + jobj.getJSONObject("GEOCODE").getJSONObject("LOC").getString("number")
+                        + "," + jobj.getJSONObject("GEOCODE").getJSONObject("LOC").getString("city"));
+            }catch (JSONException ee){}
         }
         return resultList;
     }
@@ -112,6 +107,7 @@ public class FetchData {
         resultList.add("Mylly");
         resultList.add("TYKS");
         resultList.add("Ikea");
+        resultList.add("TYS");
         return resultList;
     }
     /*********************************************************************************************************************
@@ -130,6 +126,7 @@ public class FetchData {
         str=(str.toLowerCase()).replaceAll("kopkolmio", "Aurakatu 8,Turku");
         str=(str.toLowerCase()).replaceAll("mylly", "Myllynkatu 1,Raisio");
         str=(str.toLowerCase()).replaceAll("ikea", "Itäniityntie 15,Raisio");
+        str=(str.toLowerCase()).replaceAll("tys", "Inspehtorinkatu 4,Turku");
 
         str=str.replaceAll(" ", "%20");
         str=(str.toLowerCase()).replaceAll(",", "%2c");
@@ -137,5 +134,37 @@ public class FetchData {
         str=(str.toLowerCase()).replaceAll("å", "%e5");
         str=(str.toLowerCase()).replaceAll("ö", "%f6");
         return str;
+    }
+
+    // HTTP GET request
+    public String sendGet(String url) throws Exception {
+
+        URL obj = new URL(url);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+        // optional default is GET
+        con.setRequestMethod("GET");
+
+        //add request header
+        con.setRequestProperty("User-Agent", USER_AGENT);
+
+        int responseCode = con.getResponseCode();
+        System.out.println("\nSending 'GET' request to URL : " + url);
+        System.out.println("Response Code : " + responseCode);
+
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        StringBuffer response = new StringBuffer();
+
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+        }
+        in.close();
+
+        //print result
+//        System.out.println(response.toString());
+        System.out.println(XML.toJSONObject(response.toString()).toString());
+        return XML.toJSONObject(response.toString()).toString();
     }
 }

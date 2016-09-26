@@ -2,15 +2,12 @@ package com.turku.route;
 
 import java.util.ArrayList;
 
-import android.view.Gravity;
-import android.widget.Toast;
-
 import com.turku.historydatabase.DBAdapterLanguage;
-import com.turku.historydatabase.Language;
 
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-import net.sf.json.JSONException;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 public class RouteDetail {
 	ArrayList<String> routeDetail, busstopslist;
@@ -29,7 +26,9 @@ public class RouteDetail {
 			lineRoute(route, "true");
 		}
 		catch(JSONException e){	
-			status = route.getJSONObject("LINE").toString();
+			try {
+				status = route.getJSONObject("LINE").toString();				
+			}catch (JSONException je){}
 			if(!status.equalsIgnoreCase("null")){
 			lineRoute(route, "false");
 			}
@@ -50,25 +49,27 @@ public class RouteDetail {
 		this.coord.add(0.0);
 		this.routeDetail.add("W");
 		this.distanceTime.add("W");
-		this.distanceTime.add(route.getJSONObject("WALK").getJSONObject("LENGTH").getString("@dist"));
-		this.distanceTime.add(route.getJSONObject("WALK").getJSONObject("LENGTH").getString("@time"));
-//		try{
-			JSONArray maplocarray= route.getJSONObject("WALK").getJSONArray("MAPLOC");
-			for(int val = 0; val < maplocarray.size();val++){
-				this.coord.add(Double.parseDouble(maplocarray.getJSONObject(val).getString("@y")));
-				this.coord.add(Double.parseDouble(maplocarray.getJSONObject(val).getString("@x")));
-				try{
-					if(getStreetName(maplocarray.getJSONObject(val)).length() > 0) {
-						this.routeDetail.add(maplocarray.getJSONObject(val).getJSONObject("DEPARTURE").getString("@time"));
+		try {
+			this.distanceTime.add(route.getJSONObject("WALK").getJSONObject("LENGTH").getString("dist"));
+			this.distanceTime.add(route.getJSONObject("WALK").getJSONObject("LENGTH").getString("time"));
+		}catch (JSONException je){}
+		try {
+			JSONArray maplocarray = route.getJSONObject("WALK").getJSONArray("MAPLOC");
+			for (int val = 0; val < maplocarray.length(); val++) {
+				this.coord.add(Double.parseDouble(maplocarray.getJSONObject(val).getString("y")));
+				this.coord.add(Double.parseDouble(maplocarray.getJSONObject(val).getString("x")));
+				try {
+					if (getStreetName(maplocarray.getJSONObject(val)).length() > 0) {
+						this.routeDetail.add(maplocarray.getJSONObject(val).getJSONObject("DEPARTURE").getString("time"));
 						this.routeDetail.add(getStreetName(maplocarray.getJSONObject(val)));
 					}
-				}
-				catch(JSONException e){
+				} catch (JSONException e) {
 					//Log.d("TAG", "No name for this");
 				}
 			}
+		}catch (JSONException je){}
 //		}catch(JSONException e){
-////			Toast toast = Toast.makeText(MainActivity.this,AlertDialogueAdapter.nostarting + jobj.getJSONArray("GEOCODE").getJSONObject(0).getString("@key") + AlertDialogueAdapter.notinMatka, Toast.LENGTH_SHORT);  
+////			Toast toast = Toast.makeText(MainActivity.this,AlertDialogueAdapter.nostarting + jobj.getJSONArray("GEOCODE").getJSONObject(0).getString("key") + AlertDialogueAdapter.notinMatka, Toast.LENGTH_SHORT);  
 ////			toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 200);
 ////			toast.show();
 //		}
@@ -80,25 +81,34 @@ public class RouteDetail {
 		String walkstatus = "true", busstatus = "true", maploc="true";
 		
 		if (status.equalsIgnoreCase("false")){
-			TotalNumberofTrnsport=route.getJSONArray("WALK").size() +1;	
+			try {
+				TotalNumberofTrnsport=route.getJSONArray("WALK").length() +1;
+			}catch (JSONException je){}
 		}
 		else if (status.equalsIgnoreCase("true")){
-			TotalNumberofTrnsport=route.getJSONArray("WALK").size() + route.getJSONArray("LINE").size();;	
+			try {
+				TotalNumberofTrnsport=route.getJSONArray("WALK").length() + route.getJSONArray("LINE").length();				
+			}catch (JSONException je){}	
 		}
 //		Log.d("TAG", "No of transport :" + TotalNumberofTrnsport);
 		for (int val = 0; val< TotalNumberofTrnsport; val++){
-			if (walk < route.getJSONArray("WALK").size() && walkstatus.equalsIgnoreCase("true")){
+			int walk_len = 0, line_len = 0;
+			try {
+				walk_len = route.getJSONArray("WALK").length();
+				line_len = route.getJSONArray("LINE").length();
+			}catch (JSONException je){}
+			if (walk < walk_len && walkstatus.equalsIgnoreCase("true")){
 				try{
 					
 					JSONObject jobj = route.getJSONArray("WALK").getJSONObject(walk);
-					String result = jobj.keySet().contains("MAPLOC")+"";
+					String result = jobj.keys().toString().contains("MAPLOC")+"";
 					if(result.equalsIgnoreCase("false")){
 						this.routeDetail.add("W");
 						this.routeDetail.add("0000");
 						this.routeDetail.add("NO");
 						this.distanceTime.add("W");
-						this.distanceTime.add(route.getJSONArray("WALK").getJSONObject(walk).getJSONObject("LENGTH").getString("@dist"));
-						this.distanceTime.add(route.getJSONArray("WALK").getJSONObject(walk).getJSONObject("LENGTH").getString("@time"));
+						this.distanceTime.add(route.getJSONArray("WALK").getJSONObject(walk).getJSONObject("LENGTH").getString("dist"));
+						this.distanceTime.add(route.getJSONArray("WALK").getJSONObject(walk).getJSONObject("LENGTH").getString("time"));
 						walk++;
 						walkstatus = "false";
 						busstatus = "true";
@@ -107,55 +117,60 @@ public class RouteDetail {
 				catch(JSONException map){
 					//If exeception occurs dont do anything but goto next line.
 				 }
-			}	
+			}
 
-			if (walkstatus.equalsIgnoreCase("true") && walk < route.getJSONArray("WALK").size() && maploc.equalsIgnoreCase("true")){
+			if (walkstatus.equalsIgnoreCase("true") && walk < walk_len && maploc.equalsIgnoreCase("true")){
 				try{
 					setwalkingdata(route.getJSONArray("WALK").getJSONObject(walk).getJSONArray("MAPLOC"));
 					this.distanceTime.add("W");
-					this.distanceTime.add(route.getJSONArray("WALK").getJSONObject(walk).getJSONObject("LENGTH").getString("@dist"));
-					this.distanceTime.add(route.getJSONArray("WALK").getJSONObject(walk).getJSONObject("LENGTH").getString("@time"));
+					this.distanceTime.add(route.getJSONArray("WALK").getJSONObject(walk).getJSONObject("LENGTH").getString("dist"));
+					this.distanceTime.add(route.getJSONArray("WALK").getJSONObject(walk).getJSONObject("LENGTH").getString("time"));
 					walk++;
 					walkstatus = "false";
 					busstatus = "true";
 				}
 				catch(JSONException e){
-					setwalkingdata(route.getJSONArray("WALK").getJSONObject(walk).getJSONObject("MAPLOC"));
-					this.distanceTime.add("W");
-					this.distanceTime.add(route.getJSONArray("WALK").getJSONObject(walk).getJSONObject("LENGTH").getString("@dist"));
-					this.distanceTime.add(route.getJSONArray("WALK").getJSONObject(walk).getJSONObject("LENGTH").getString("@time"));
-					walk++;
-					walkstatus = "false";
-					busstatus = "true";
+					try {
+						setwalkingdata(route.getJSONArray("WALK").getJSONObject(walk).getJSONObject("MAPLOC"));
+						this.distanceTime.add("W");
+						this.distanceTime.add(route.getJSONArray("WALK").getJSONObject(walk).getJSONObject("LENGTH").getString("dist"));
+						this.distanceTime.add(route.getJSONArray("WALK").getJSONObject(walk).getJSONObject("LENGTH").getString("time"));
+						walk++;
+						walkstatus = "false";
+						busstatus = "true";
+					}catch (JSONException je){}
 				}
 			}
 			/*********************************************************************************************************************
 			 * 		If there is only one bus in the route.    															 	 	 */
 			else if (status.equalsIgnoreCase("false") && busstatus.equalsIgnoreCase("true") && bus < 1){
-				setbusdata(route.getJSONObject("LINE"));
-				bus++;
-				walkstatus = "true";
-				busstatus = "false";
+				try {
+					setbusdata(route.getJSONObject("LINE"));
+					bus++;
+					walkstatus = "true";
+					busstatus = "false";
+				}catch (JSONException je){}
 			}
 			/*********************************************************************************************************************
 			 * 		If there is a multiple bus line in the route. 		    											 	 	 */									
-			else if(status.equalsIgnoreCase("true") && bus < route.getJSONArray("LINE").size() &&  busstatus.equalsIgnoreCase("true")){
-				int stopsize = route.getJSONArray("LINE").getJSONObject(bus).getJSONArray("STOP").size();
-				if(busstatus.equalsIgnoreCase("true") && (bus+1) < route.getJSONArray("LINE").size() && 
-						route.getJSONArray("LINE").getJSONObject(bus).getJSONArray("STOP").getJSONObject(stopsize-1).getString("@code").equalsIgnoreCase(
-						route.getJSONArray("LINE").getJSONObject(bus+1).getJSONArray("STOP").getJSONObject(0).getString("@code")))
-				{		
-					setbusdata(route.getJSONArray("LINE").getJSONObject(bus));
-					bus ++;
-				}	
-				/*********************************************************************************************************************
-				 * 		If there is a need of walking while changing the bus.    											 	 	 */
-				else if(busstatus.equalsIgnoreCase("true") && bus < route.getJSONArray("LINE").size()){
-					setbusdata(route.getJSONArray("LINE").getJSONObject(bus));
-					bus ++;
-					busstatus = "false";
-					walkstatus = "true";
-				}
+			else if(status.equalsIgnoreCase("true") && bus < line_len &&  busstatus.equalsIgnoreCase("true")){
+				try {
+					int stopsize = route.getJSONArray("LINE").getJSONObject(bus).getJSONArray("STOP").length();
+					if (busstatus.equalsIgnoreCase("true") && (bus + 1) < route.getJSONArray("LINE").length() &&
+							route.getJSONArray("LINE").getJSONObject(bus).getJSONArray("STOP").getJSONObject(stopsize - 1).getString("code").equalsIgnoreCase(
+									route.getJSONArray("LINE").getJSONObject(bus + 1).getJSONArray("STOP").getJSONObject(0).getString("code"))) {
+						setbusdata(route.getJSONArray("LINE").getJSONObject(bus));
+						bus++;
+					}
+					/*********************************************************************************************************************
+					 * 		If there is a need of walking while changing the bus.    											 	 	 */
+					else if (busstatus.equalsIgnoreCase("true") && bus < route.getJSONArray("LINE").length()) {
+						setbusdata(route.getJSONArray("LINE").getJSONObject(bus));
+						bus++;
+						busstatus = "false";
+						walkstatus = "true";
+					}
+				}catch (JSONException je){}
 			}
 		}	
 	}
@@ -164,59 +179,68 @@ public class RouteDetail {
 	public void setwalkingdata(JSONArray route){
 		this.coord.add(0.0);
 		this.routeDetail.add("W");
-			for(int val = 0; val < route.size();val++){
-				this.coord.add(Double.parseDouble(route.getJSONObject(val).getString("@y")));
-				this.coord.add(Double.parseDouble(route.getJSONObject(val).getString("@x")));
-				try{
-					if (getStreetName(route.getJSONObject(val)).length() > 0) {
-						this.routeDetail.add(route.getJSONObject(val).getJSONObject("DEPARTURE").getString("@time"));
-						this.routeDetail.add(getStreetName(route.getJSONObject(val)));
-					}
+		for (int val = 0; val < route.length(); val++) {
+			try {
+				this.coord.add(Double.parseDouble(route.getJSONObject(val).getString("y")));
+				this.coord.add(Double.parseDouble(route.getJSONObject(val).getString("x")));
+			}catch (JSONException je){}
+			try {
+				if (getStreetName(route.getJSONObject(val)).length() > 0) {
+					this.routeDetail.add(route.getJSONObject(val).getJSONObject("DEPARTURE").getString("time"));
+					this.routeDetail.add(getStreetName(route.getJSONObject(val)));
 				}
-				catch(JSONException e){
-					this.routeDetail.add("0000");
-					this.routeDetail.add("NO");
-				}
-			}		
+			} catch (JSONException e) {
+				this.routeDetail.add("0000");
+				this.routeDetail.add("NO");
+			}
+		}
 	}
 	/*********************************************************************************************************************
 	 * 		This will check if the only way to the destination is by walking.  											 */	
 	public void setwalkingdata(JSONObject route){
 		this.coord.add(0.0);
 		this.routeDetail.add("W");
-				this.coord.add(Double.parseDouble(route.getString("@y")));
-				this.coord.add(Double.parseDouble(route.getString("@x")));
-				try{
-					if (getStreetName(route).length() > 0) {
-						this.routeDetail.add(route.getJSONObject("DEPARTURE").getString("@time"));
-						this.routeDetail.add(getStreetName(route));
-					}
-				}
-				catch(JSONException e){
-					this.routeDetail.add("0000");
-					this.routeDetail.add("NO");
-				}
+		try{
+			this.coord.add(Double.parseDouble(route.getString("y")));
+			this.coord.add(Double.parseDouble(route.getString("x")));
+			if (getStreetName(route).length() > 0) {
+				this.routeDetail.add(route.getJSONObject("DEPARTURE").getString("time"));
+				this.routeDetail.add(getStreetName(route));
+			}
+		}
+		catch(JSONException e){
+			this.routeDetail.add("0000");
+			this.routeDetail.add("NO");
+		}
 	}
 	/*********************************************************************************************************************
 	 * 		This will set the line to the list of route detail and coordinates. 										 */
 	public void setbusdata(JSONObject route){
 		this.coord.add(1.0);
 		this.routeDetail.add("L");
-//		this.routeDetail.add(route.getString("@id"));
-//		this.routeDetail.add(route.getString("@code"));
+//		this.routeDetail.add(route.getString("id"));
+//		this.routeDetail.add(route.getString("code"));
 		this.distanceTime.add("L");
-		this.distanceTime.add(route.getString("@code"));
-		for(int val = 0; val < route.getJSONArray("STOP").size();val++){
-			this.coord.add(Double.parseDouble(route.getJSONArray("STOP").getJSONObject(val).getString("@y")));
-			this.coord.add(Double.parseDouble(route.getJSONArray("STOP").getJSONObject(val).getString("@x")));
+		try {
+			this.distanceTime.add(route.getString("code"));
+		}catch (JSONException je){}
+		int stop_len=0;
+		try {
+			stop_len = route.getJSONArray("STOP").length();
+		}catch (JSONException je){}
+		for(int val = 0; val < stop_len;val++){
+			try {
+				this.coord.add(Double.parseDouble(route.getJSONArray("STOP").getJSONObject(val).getString("y")));
+				this.coord.add(Double.parseDouble(route.getJSONArray("STOP").getJSONObject(val).getString("x")));
+			}catch (JSONException je){}
 			try {
 				if (getStreetName(route.getJSONArray("STOP").getJSONObject(val)).length() > 0) {
 					if (val == 0) {
-						this.distanceTime.add(route.getJSONArray("STOP").getJSONObject(val).getString("@code"));
+						this.distanceTime.add(route.getJSONArray("STOP").getJSONObject(val).getString("code"));
 						this.distanceTime.add(getStreetName(route.getJSONArray("STOP").getJSONObject(val)));
 					}
 
-					this.routeDetail.add(route.getJSONArray("STOP").getJSONObject(val).getJSONObject("DEPARTURE").getString("@time"));
+					this.routeDetail.add(route.getJSONArray("STOP").getJSONObject(val).getJSONObject("DEPARTURE").getString("time"));
 					this.routeDetail.add(getStreetName(route.getJSONArray("STOP").getJSONObject(val)));
 					this.busstopslist.add(getStreetName(route.getJSONArray("STOP").getJSONObject(val)));
 				}
@@ -225,8 +249,10 @@ public class RouteDetail {
 				//Log.d("TAG", "No name for this");
 			}
 		}
-		this.distanceTime.add(route.getJSONObject("LENGTH").getString("@dist"));
-		this.distanceTime.add(route.getJSONObject("LENGTH").getString("@time"));
+		try {
+			this.distanceTime.add(route.getJSONObject("LENGTH").getString("dist"));
+			this.distanceTime.add(route.getJSONObject("LENGTH").getString("time"));
+		}catch (JSONException je){}
 	}
 	public ArrayList<Double> getCoord() {
 		return coord;
@@ -256,9 +282,11 @@ public class RouteDetail {
 		int index = 0;
 		if(DBAdapterLanguage.getAllData().get(0).equalsIgnoreCase("SWE")) index = 1;
 		try {
-			return name.getJSONArray("NAME").getJSONObject(index).getString("@val");
+			return name.getJSONArray("NAME").getJSONObject(index).getString("val");
 		}catch (JSONException e){
-			return name.getJSONObject("NAME").getString("@val");
+			try {
+				return name.getJSONObject("NAME").getString("val");
+			}catch (JSONException je){return "";}
 		}
 
 	}
