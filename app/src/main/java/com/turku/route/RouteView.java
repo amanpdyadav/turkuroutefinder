@@ -133,44 +133,44 @@ public void startRouteView(JSONObject jobj){
 		MainActivity.dialog.cancel();
 		String start="null", end="null", start_error="null", end_error="null";
 		
-		try{start_error = jobj.getJSONArray("GEOCODE").getJSONObject(0).getJSONObject("ERROR").toString();}catch(JSONException e1){}
-		try{end_error = jobj.getJSONArray("GEOCODE").getJSONObject(1).getJSONObject("ERROR").toString();}catch(JSONException e1){}
-		try{start = jobj.getJSONArray("GEOCODE").getJSONObject(0).getJSONObject("LOC").toString();}catch(JSONException e2){}		
-		try{end = jobj.getJSONArray("GEOCODE").getJSONObject(1).getJSONObject("LOC").toString();}catch(JSONException e3){}
+		try{start_error = jobj.getJSONObject("MTRXML").getJSONArray("GEOCODE").getJSONObject(0).getJSONObject("ERROR").toString();}catch(JSONException e1){}
+		try{end_error = jobj.getJSONObject("MTRXML").getJSONArray("GEOCODE").getJSONObject(1).getJSONObject("ERROR").toString();}catch(JSONException e1){}
+		try{start = jobj.getJSONObject("MTRXML").getJSONArray("GEOCODE").getJSONObject(0).getJSONObject("LOC").toString();}catch(JSONException e2){}		
+		try{end = jobj.getJSONObject("MTRXML").getJSONArray("GEOCODE").getJSONObject(1).getJSONObject("LOC").toString();}catch(JSONException e3){}
 		
 
 		try{			
 			List<String> listaddress = new ArrayList<String>();
-			int locsize = jobj.getJSONArray("GEOCODE").getJSONObject(1).getJSONArray("LOC").length();
+			int locsize = jobj.getJSONObject("MTRXML").getJSONArray("GEOCODE").getJSONObject(1).getJSONArray("LOC").length();
 			for(int len=0; len<locsize; len++){
-				String city = jobj.getJSONArray("GEOCODE").getJSONObject(1).getJSONArray("LOC").getJSONObject(len).getString("city");
+				String city = jobj.getJSONObject("MTRXML").getJSONArray("GEOCODE").getJSONObject(1).getJSONArray("LOC").getJSONObject(len).getString("city");
 				if (city.equalsIgnoreCase("turku") || city.equalsIgnoreCase("kaarina") || city.equalsIgnoreCase("naantali") || city.equalsIgnoreCase("raisio")){
-					if((jobj.getJSONArray("GEOCODE").getJSONObject(1).getJSONArray("LOC").getJSONObject(len).getString("number")).equalsIgnoreCase(""))
-						listaddress.add(jobj.getJSONArray("GEOCODE").getJSONObject(1).getJSONArray("LOC").getJSONObject(len).getString("name1") +","+
-								jobj.getJSONArray("GEOCODE").getJSONObject(1).getJSONArray("LOC").getJSONObject(len).getString("city")
+					if((jobj.getJSONObject("MTRXML").getJSONArray("GEOCODE").getJSONObject(1).getJSONArray("LOC").getJSONObject(len).getString("number")).equalsIgnoreCase(""))
+						listaddress.add(jobj.getJSONObject("MTRXML").getJSONArray("GEOCODE").getJSONObject(1).getJSONArray("LOC").getJSONObject(len).getString("name1") +","+
+								jobj.getJSONObject("MTRXML").getJSONArray("GEOCODE").getJSONObject(1).getJSONArray("LOC").getJSONObject(len).getString("city")
 								);
 					else
-						listaddress.add(jobj.getJSONArray("GEOCODE").getJSONObject(1).getJSONArray("LOC").getJSONObject(len).getString("name1") + " "+
-								jobj.getJSONArray("GEOCODE").getJSONObject(1).getJSONArray("LOC").getJSONObject(len).getString("number") + ","+
-								jobj.getJSONArray("GEOCODE").getJSONObject(1).getJSONArray("LOC").getJSONObject(len).getString("city")
+						listaddress.add(jobj.getJSONObject("MTRXML").getJSONArray("GEOCODE").getJSONObject(1).getJSONArray("LOC").getJSONObject(len).getString("name1") + " "+
+								jobj.getJSONObject("MTRXML").getJSONArray("GEOCODE").getJSONObject(1).getJSONArray("LOC").getJSONObject(len).getString("number") + ","+
+								jobj.getJSONObject("MTRXML").getJSONArray("GEOCODE").getJSONObject(1).getJSONArray("LOC").getJSONObject(len).getString("city")
 								);
 				}
 			}					
 			ShowlistAddress(listaddress, 3);	
 			
 			listaddress = new ArrayList<String>();
-			locsize = jobj.getJSONArray("GEOCODE").getJSONObject(0).getJSONArray("LOC").length();
+			locsize = jobj.getJSONObject("MTRXML").getJSONArray("GEOCODE").getJSONObject(0).getJSONArray("LOC").length();
 			for(int len=0; len<locsize; len++){
-				String city = jobj.getJSONArray("GEOCODE").getJSONObject(0).getJSONArray("LOC").getJSONObject(len).getString("city");
+				String city = jobj.getJSONObject("MTRXML").getJSONArray("GEOCODE").getJSONObject(0).getJSONArray("LOC").getJSONObject(len).getString("city");
 				if (city.equalsIgnoreCase("turku") || city.equalsIgnoreCase("kaarina") || city.equalsIgnoreCase("naantali") || city.equalsIgnoreCase("raisio")){
-					if((jobj.getJSONArray("GEOCODE").getJSONObject(0).getJSONArray("LOC").getJSONObject(len).getString("number")).equalsIgnoreCase(""))
-						listaddress.add(jobj.getJSONArray("GEOCODE").getJSONObject(0).getJSONArray("LOC").getJSONObject(len).getString("name1") +","+
-								jobj.getJSONArray("GEOCODE").getJSONObject(0).getJSONArray("LOC").getJSONObject(len).getString("city")
+					if((jobj.getJSONObject("MTRXML").getJSONArray("GEOCODE").getJSONObject(0).getJSONArray("LOC").getJSONObject(len).getString("number")).equalsIgnoreCase(""))
+						listaddress.add(jobj.getJSONObject("MTRXML").getJSONArray("GEOCODE").getJSONObject(0).getJSONArray("LOC").getJSONObject(len).getString("name1") +","+
+								jobj.getJSONObject("MTRXML").getJSONArray("GEOCODE").getJSONObject(0).getJSONArray("LOC").getJSONObject(len).getString("city")
 								);
 					else
-					listaddress.add(jobj.getJSONArray("GEOCODE").getJSONObject(0).getJSONArray("LOC").getJSONObject(len).getString("name1") + " "+
-							jobj.getJSONArray("GEOCODE").getJSONObject(0).getJSONArray("LOC").getJSONObject(len).getString("number") + ","+
-							jobj.getJSONArray("GEOCODE").getJSONObject(0).getJSONArray("LOC").getJSONObject(len).getString("city")
+					listaddress.add(jobj.getJSONObject("MTRXML").getJSONArray("GEOCODE").getJSONObject(0).getJSONArray("LOC").getJSONObject(len).getString("name1") + " "+
+							jobj.getJSONObject("MTRXML").getJSONArray("GEOCODE").getJSONObject(0).getJSONArray("LOC").getJSONObject(len).getString("number") + ","+
+							jobj.getJSONObject("MTRXML").getJSONArray("GEOCODE").getJSONObject(0).getJSONArray("LOC").getJSONObject(len).getString("city")
 							);
 				}
 			}
@@ -185,7 +185,7 @@ public void startRouteView(JSONObject jobj){
 			if(!start.equalsIgnoreCase("null")){
 				if(!end_error.equalsIgnoreCase("null")){
 					try {
-						Toast toast = Toast.makeText(getApplicationContext(),AlertDialogueAdapter.nodestination + jobj.getJSONArray("GEOCODE").getJSONObject(1).getString("key") + AlertDialogueAdapter.notinMatka, Toast.LENGTH_SHORT);
+						Toast toast = Toast.makeText(getApplicationContext(),AlertDialogueAdapter.nodestination + jobj.getJSONObject("MTRXML").getJSONArray("GEOCODE").getJSONObject(1).getString("key") + AlertDialogueAdapter.notinMatka, Toast.LENGTH_SHORT);
 						toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 200);
 						toast.show();
 						finish();
@@ -194,18 +194,18 @@ public void startRouteView(JSONObject jobj){
 				else{
 					List<String> listaddress = new ArrayList<String>();
 					try {
-						int locsize = jobj.getJSONArray("GEOCODE").getJSONObject(1).getJSONArray("LOC").length();
+						int locsize = jobj.getJSONObject("MTRXML").getJSONArray("GEOCODE").getJSONObject(1).getJSONArray("LOC").length();
 						for(int len=0; len<locsize; len++){
-							String city = jobj.getJSONArray("GEOCODE").getJSONObject(1).getJSONArray("LOC").getJSONObject(len).getString("city");
+							String city = jobj.getJSONObject("MTRXML").getJSONArray("GEOCODE").getJSONObject(1).getJSONArray("LOC").getJSONObject(len).getString("city");
 							if (city.equalsIgnoreCase("turku") || city.equalsIgnoreCase("kaarina") || city.equalsIgnoreCase("naantali") || city.equalsIgnoreCase("raisio")){
-								if((jobj.getJSONArray("GEOCODE").getJSONObject(1).getJSONArray("LOC").getJSONObject(len).getString("number")).equalsIgnoreCase(""))
-									listaddress.add(jobj.getJSONArray("GEOCODE").getJSONObject(1).getJSONArray("LOC").getJSONObject(len).getString("name1") +","+
-											jobj.getJSONArray("GEOCODE").getJSONObject(1).getJSONArray("LOC").getJSONObject(len).getString("city")
+								if((jobj.getJSONObject("MTRXML").getJSONArray("GEOCODE").getJSONObject(1).getJSONArray("LOC").getJSONObject(len).getString("number")).equalsIgnoreCase(""))
+									listaddress.add(jobj.getJSONObject("MTRXML").getJSONArray("GEOCODE").getJSONObject(1).getJSONArray("LOC").getJSONObject(len).getString("name1") +","+
+											jobj.getJSONObject("MTRXML").getJSONArray("GEOCODE").getJSONObject(1).getJSONArray("LOC").getJSONObject(len).getString("city")
 											);
 								else
-								listaddress.add(jobj.getJSONArray("GEOCODE").getJSONObject(1).getJSONArray("LOC").getJSONObject(len).getString("name1") + " "+
-										jobj.getJSONArray("GEOCODE").getJSONObject(1).getJSONArray("LOC").getJSONObject(len).getString("number") + ","+
-										jobj.getJSONArray("GEOCODE").getJSONObject(1).getJSONArray("LOC").getJSONObject(len).getString("city")
+								listaddress.add(jobj.getJSONObject("MTRXML").getJSONArray("GEOCODE").getJSONObject(1).getJSONArray("LOC").getJSONObject(len).getString("name1") + " "+
+										jobj.getJSONObject("MTRXML").getJSONArray("GEOCODE").getJSONObject(1).getJSONArray("LOC").getJSONObject(len).getString("number") + ","+
+										jobj.getJSONObject("MTRXML").getJSONArray("GEOCODE").getJSONObject(1).getJSONArray("LOC").getJSONObject(len).getString("city")
 										);
 							}
 						}
@@ -217,7 +217,7 @@ public void startRouteView(JSONObject jobj){
 			if(!end.equalsIgnoreCase("null")){
 				if(!start_error.equalsIgnoreCase("null")){
 					try {
-						Toast toast = Toast.makeText(getApplicationContext(), AlertDialogueAdapter.nostarting + jobj.getJSONArray("GEOCODE").getJSONObject(0).getString("key") + AlertDialogueAdapter.notinMatka, Toast.LENGTH_SHORT);
+						Toast toast = Toast.makeText(getApplicationContext(), AlertDialogueAdapter.nostarting + jobj.getJSONObject("MTRXML").getJSONArray("GEOCODE").getJSONObject(0).getString("key") + AlertDialogueAdapter.notinMatka, Toast.LENGTH_SHORT);
 						toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 200);
 						toast.show();
 						finish();
@@ -226,18 +226,18 @@ public void startRouteView(JSONObject jobj){
 				else{
 					List<String> listaddress = new ArrayList<String>();
 					try {
-						int locsize = jobj.getJSONArray("GEOCODE").getJSONObject(0).getJSONArray("LOC").length();
+						int locsize = jobj.getJSONObject("MTRXML").getJSONArray("GEOCODE").getJSONObject(0).getJSONArray("LOC").length();
 						for (int len = 0; len < locsize; len++) {
-							String city = jobj.getJSONArray("GEOCODE").getJSONObject(0).getJSONArray("LOC").getJSONObject(len).getString("city");
+							String city = jobj.getJSONObject("MTRXML").getJSONArray("GEOCODE").getJSONObject(0).getJSONArray("LOC").getJSONObject(len).getString("city");
 							if (city.equalsIgnoreCase("turku") || city.equalsIgnoreCase("kaarina") || city.equalsIgnoreCase("naantali") || city.equalsIgnoreCase("raisio")) {
-								if ((jobj.getJSONArray("GEOCODE").getJSONObject(0).getJSONArray("LOC").getJSONObject(len).getString("number")).equalsIgnoreCase(""))
-									listaddress.add(jobj.getJSONArray("GEOCODE").getJSONObject(0).getJSONArray("LOC").getJSONObject(len).getString("name1") + "," +
-											jobj.getJSONArray("GEOCODE").getJSONObject(0).getJSONArray("LOC").getJSONObject(len).getString("city")
+								if ((jobj.getJSONObject("MTRXML").getJSONArray("GEOCODE").getJSONObject(0).getJSONArray("LOC").getJSONObject(len).getString("number")).equalsIgnoreCase(""))
+									listaddress.add(jobj.getJSONObject("MTRXML").getJSONArray("GEOCODE").getJSONObject(0).getJSONArray("LOC").getJSONObject(len).getString("name1") + "," +
+											jobj.getJSONObject("MTRXML").getJSONArray("GEOCODE").getJSONObject(0).getJSONArray("LOC").getJSONObject(len).getString("city")
 									);
 								else
-									listaddress.add(jobj.getJSONArray("GEOCODE").getJSONObject(0).getJSONArray("LOC").getJSONObject(len).getString("name1") + " " +
-											jobj.getJSONArray("GEOCODE").getJSONObject(0).getJSONArray("LOC").getJSONObject(len).getString("number") + "," +
-											jobj.getJSONArray("GEOCODE").getJSONObject(0).getJSONArray("LOC").getJSONObject(len).getString("city")
+									listaddress.add(jobj.getJSONObject("MTRXML").getJSONArray("GEOCODE").getJSONObject(0).getJSONArray("LOC").getJSONObject(len).getString("name1") + " " +
+											jobj.getJSONObject("MTRXML").getJSONArray("GEOCODE").getJSONObject(0).getJSONArray("LOC").getJSONObject(len).getString("number") + "," +
+											jobj.getJSONObject("MTRXML").getJSONArray("GEOCODE").getJSONObject(0).getJSONArray("LOC").getJSONObject(len).getString("city")
 									);
 							}
 						}

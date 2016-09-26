@@ -1,15 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion '21.1.2'
+    compileSdkVersion 24
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
         applicationId "com.turku.route"
-        minSdkVersion 11
-        targetSdkVersion 21
-        versionCode 7
-        versionName "2.1.2"
+        minSdkVersion 19
+        targetSdkVersion 24
+        versionCode 8
+        versionName "2.2.0"
     }
     buildTypes {
         release {
@@ -22,7 +22,7 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:support-v4:+'
-    compile 'com.android.support:appcompat-v7:21.0.3'
+    compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.google.android.gms:play-services:6.5.87'
     compile files('libs/json-lib-2.4-jdk15.jar')
 }

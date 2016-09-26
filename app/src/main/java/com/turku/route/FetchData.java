@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import java.net.HttpURLConnection;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -58,7 +59,7 @@ public class FetchData {
                 + input + "&user=Projektkurs&pass=Reittiopas");
         JSONObject jobj = (JSONObject) xml;
         try{
-            address = jobj.getJSONObject("GEOCODE").getJSONArray("LOC");
+            address = jobj.getJSONObject("MTRXML").getJSONObject("GEOCODE").getJSONArray("LOC");
             for (int i = 0; i < address.length(); i++) {
                 if (address.getJSONObject(i).getString("city")
                         .equalsIgnoreCase("turku")
@@ -78,16 +79,16 @@ public class FetchData {
         }
         catch(Exception e){
             try {
-                JSONObject keys = jobj.getJSONObject("GEOCODE");
+                JSONObject keys = jobj.getJSONObject("MTRXML").getJSONObject("GEOCODE");
                 String result = keys.keys().toString().contains("LOC")+"";
                 if(result.equalsIgnoreCase("false"))
                 {
                     resultList.add("No match found.");
                     return resultList;
                 }
-                resultList.add(jobj.getJSONObject("GEOCODE").getJSONObject("LOC").getString("name1")
-                        + "" + jobj.getJSONObject("GEOCODE").getJSONObject("LOC").getString("number")
-                        + "," + jobj.getJSONObject("GEOCODE").getJSONObject("LOC").getString("city"));
+                resultList.add(jobj.getJSONObject("MTRXML").getJSONObject("GEOCODE").getJSONObject("LOC").getString("name1")
+                        + "" + jobj.getJSONObject("MTRXML").getJSONObject("GEOCODE").getJSONObject("LOC").getString("number")
+                        + "," + jobj.getJSONObject("MTRXML").getJSONObject("GEOCODE").getJSONObject("LOC").getString("city"));
             }catch (JSONException ee){}
         }
         return resultList;
@@ -145,15 +146,12 @@ public class FetchData {
         // optional default is GET
         con.setRequestMethod("GET");
 
-        //add request header
-        con.setRequestProperty("User-Agent", USER_AGENT);
-
         int responseCode = con.getResponseCode();
         System.out.println("\nSending 'GET' request to URL : " + url);
         System.out.println("Response Code : " + responseCode);
 
         BufferedReader in = new BufferedReader(
-                new InputStreamReader(con.getInputStream()));
+                new InputStreamReader(con.getInputStream(), StandardCharsets.ISO_8859_1));
         String inputLine;
         StringBuffer response = new StringBuffer();
 
