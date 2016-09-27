@@ -826,8 +826,9 @@ public class MainActivity extends ActionBarActivity implements  OnItemClickListe
 	    builderSingle.setIcon(R.drawable.ic_launcher);
 	    
 	    builderSingle.setTitle("Select the Language");
-	    
+
 	    final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.select_dialog_singlechoice);
+
 	    arrayAdapter.addAll(language);
 	    builderSingle.setNegativeButton("Cancel",
 	            new DialogInterface.OnClickListener() {
@@ -836,35 +837,49 @@ public class MainActivity extends ActionBarActivity implements  OnItemClickListe
 	                    dialog.dismiss();
 	                }
 	            });
+		List<String> lanGuage = DBAdapterLanguage.getAllData();
+		int land_id = 0;
+		switch (lanGuage.get(0)){
+			case "ENG":
+				land_id = 0;
+				break;
+			case "FIN":
+				land_id = 1;
+				break;
+			case "SWE":
+				land_id = 2;
+				break;
+		}
+		builderSingle.setSingleChoiceItems(arrayAdapter, land_id, new DialogInterface.OnClickListener() {
 
-	    builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
-	                @Override
-	                public void onClick(DialogInterface dialog, int which) {
-	                	String val = arrayAdapter.getItem(which);
-	                	if(val.equalsIgnoreCase("English")){
-	                		DBAdapterLanguage.updateAddressData(new Language("ENG"));
-	                	}
-	                	if(val.equalsIgnoreCase("Suomi")){
-	                		DBAdapterLanguage.updateAddressData(new Language("FIN"));
-	                	}
-	                	if(val.equalsIgnoreCase("Svenska")){
-	                		DBAdapterLanguage.updateAddressData(new Language("SWE"));
-	                	}
-	                	if (Build.VERSION.SDK_INT >= 11) {
-	                		drawerlayout.removeAllViews();
-	                	    recreate();
-	                	} else {
-	                		drawerlayout.removeAllViews();
-	                	    Intent intent = getIntent();
-	                	    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-	                	    finish();
-	                	    overridePendingTransition(0, 0);
-	                	    startActivity(intent);
-	                	    overridePendingTransition(0, 0);
-	                	}
-	                	dialog.dismiss();
-	                }
-	            });
+			@Override
+			public void onClick(DialogInterface arg0, int arg1) {
+				String val = arrayAdapter.getItem(arg1);
+				if(val.equalsIgnoreCase("English")){
+					DBAdapterLanguage.updateAddressData(new Language("ENG"));
+				}
+				if(val.equalsIgnoreCase("Suomi")){
+					DBAdapterLanguage.updateAddressData(new Language("FIN"));
+				}
+				if(val.equalsIgnoreCase("Svenska")){
+					DBAdapterLanguage.updateAddressData(new Language("SWE"));
+				}
+				if (Build.VERSION.SDK_INT >= 11) {
+					drawerlayout.removeAllViews();
+					recreate();
+				} else {
+					drawerlayout.removeAllViews();
+					Intent intent = getIntent();
+					intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+					finish();
+					overridePendingTransition(0, 0);
+					startActivity(intent);
+					overridePendingTransition(0, 0);
+				}
+				arg0.dismiss();
+			}
+		});
+
 	    builderSingle.show();
 	 }
 }//CLOSING THE MAIN ACTIVITY
