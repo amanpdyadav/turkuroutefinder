@@ -5,6 +5,20 @@
     <string name="divider_string">|</string>     
     <string name="howtouse">How to use?</string>    
     <string name="drawer_open">Open Navigation Drawer</string>
-    <string name="drawer_close">Close Navigation Drawer</string>    
-    
+    <string name="drawer_close">Close Navigation Drawer</string>
+
+    <!--Label for text boxes-->
+    <string name="from_text">Enter starting address</string>
+    <string name="to_text">Enter destination address</string>
+
+    <!--Images descriptions-->
+    <string name="globe">Pick Address</string>
+    <string name="switch_pos">Switch Position</string>
+    <string name="calendar">Select date</string>
+    <string name="clock">Select time</string>
+    <string name="history">See the history</string>
+    <string name="previous_btn">Previous</string>
+    <string name="pre_route">Previous Route</string>
+    <string name="current_route">Current Route</string>
+    <string name="next_route">Next Route</string>
 </resources>

@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" 
-    android:gravity="left"
+    android:gravity="start"
     android:orientation="horizontal" >
 
     <ImageView
@@ -11,9 +11,10 @@
         android:layout_width="wrap_content"
         android:layout_height="90dp"
         android:clickable="true"
-        android:gravity="left"
+        android:gravity="start"
         android:paddingBottom="2dp"
         android:paddingRight="15dp"
+        android:paddingLeft="15dp"
         android:paddingTop="2dp"
         android:src="@drawable/ic_drawer" />
 
@@ -27,6 +28,7 @@
         android:textColor="#FFFFFF"
         android:paddingBottom="2dp"
         android:paddingRight="15dp"
+        android:paddingLeft="15dp"
         android:paddingTop="2dp"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -35,11 +37,12 @@
         android:contentDescription="@null"
         android:layout_width="35dp"
         android:layout_height="30dp"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:clickable="true"
         android:paddingBottom="2dp"
-        android:paddingRight="2dp"
+        android:paddingStart="2dp"
+        android:paddingEnd="2dp"
         android:paddingTop="2dp" />
 
 </RelativeLayout>

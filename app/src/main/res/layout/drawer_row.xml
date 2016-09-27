@@ -9,7 +9,7 @@
         android:id="@+id/options_view"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:gravity="left"
+        android:gravity="start"
         android:textColor="#FFFFFF"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
